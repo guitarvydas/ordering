@@ -12,33 +12,16 @@ def main ():
     zd.run (palette, root_project, root_0D, arg, main_container_name, diagram_names, start_function,
               show_hierarchy=False, show_connections=False, show_traces=False, show_all_outputs=True)
 
-def OK_start_function (root_project, root_0D, arg, main_container):
-    arg = zd.new_datum_string (f'{arg}')
-    srcmsg = zd.make_message("x", arg)
-    zd.inject (main_container, srcmsg)
-    srcmsg = zd.make_message("y", arg)
-    zd.inject (main_container, srcmsg)
-    srcmsg = zd.make_message("z", arg)
-    zd.inject (main_container, srcmsg)
-
-#def OUT_OF_ORDER_BUT_OK_start_function (root_project, root_0D, arg, main_container):
 def start_function (root_project, root_0D, arg, main_container):
     arg = zd.new_datum_string (f'{arg}')
     srcmsg = zd.make_message("x", arg)
+    print ("injecting x")
     zd.inject (main_container, srcmsg)
     srcmsg = zd.make_message("z", arg)
+    print ("injecting z")
     zd.inject (main_container, srcmsg)
     srcmsg = zd.make_message("y", arg)
-    zd.inject (main_container, srcmsg)
-
-def OVERRUN_ERROR_start_function (root_project, root_0D, arg, main_container):
-    arg = zd.new_datum_string (f'{arg}')
-    srcmsg = zd.make_message("x", arg)
-    zd.inject (main_container, srcmsg)
-    zd.inject (main_container, srcmsg)  ## Too many "x"s - overrrun error
-    srcmsg = zd.make_message("z", arg)
-    zd.inject (main_container, srcmsg)
-    srcmsg = zd.make_message("y", arg)
+    print ("injecting y")
     zd.inject (main_container, srcmsg)
 
 
@@ -50,7 +33,7 @@ def components_to_include_in_project (root_project, root_0D, reg):
 
 
 
-# Deracer_States :: enum { idle, waitingForFirst, waitingForSecond, waitingForReset }
+# Deracer_States :: enum { idle, want1, want2, wantReset }
 
 class Deracer_Instance_Data:
     def __init__ (self, state="idle", buffer=None):
@@ -75,24 +58,24 @@ def deracer_with_overrun (reg, owner, name, template_data):
 def send_first_then_second (eh, inst, msg):
     zd.forward (eh, "1", inst.buffer.first)
     zd.forward (eh, "2", inst.buffer.second)
-    inst.state = "waitingForReset"
+    inst.state = "wantReset"
 
 def deracer_handler (eh, msg):      
     inst = eh.instance_data
     if inst.state == "idle":
         if "1" == msg.port:
             inst.buffer.first = msg
-            inst.state = "waitingForSecond"
+            inst.state = "want2"
         elif "2" == msg.port:
             inst.buffer.second = msg
-            inst.state = "waitingForFirst"
+            inst.state = "want1"
         elif "reset" == msg.port:
             inst.state = "idle"
         else:
             zd.send (eh, "✗", f"bad msg.port (case A) for deracer {msg.port}", msg)
             inst.state = "idle"
             
-    elif inst.state == "waitingForFirst":
+    elif inst.state == "want1":
         if "1" == msg.port:
             inst.buffer.first = msg
             send_first_then_second (eh, inst, msg)
@@ -110,7 +93,7 @@ def deracer_handler (eh, msg):
             reclaim_Buffers_from_heap (inst)
             inst.state = "idle"
             
-    elif inst.state == "waitingForSecond":
+    elif inst.state == "want2":
         if "2" == msg.port:
             inst.buffer.second = msg
             send_first_then_second (eh, inst, msg)
@@ -128,7 +111,7 @@ def deracer_handler (eh, msg):
             reclaim_Buffers_from_heap (inst)
             inst.state = "idle"
             
-    elif inst.state == "waitingForReset":
+    elif inst.state == "wantReset":
         if "reset" == msg.port:
             reclaim_Buffers_from_heap (inst)
             inst.state = "idle"
@@ -186,18 +169,15 @@ def do_something_handler (eh, msg):
     elif inst.state == "wantz":
         if "z" == msg.port:
             print ("got z")
+            print ("finished")
             zd.send (eh, "finished", zd.new_datum_bang (), msg)
-            inst.state = "wantdone"
-        else:
-            print (f'bad order in state wantz "{msg.port}"')
-            sys.exit (1)
-    elif inst.state == "wantdone":
-        if "reset" == msg.port:
-            print ("got reset - finished")
             inst.state = "idle"
             sys.exit (0)
         else:
-            print (f'bad order in state wantdone "{msg.port}"')
+            print (f'bad order in state wantz "{msg.port}"')
+            sys.exit (1)
+    else:
+            print (f'bad state in wantdone "{inst.state}"')
             sys.exit (1)
         
 
