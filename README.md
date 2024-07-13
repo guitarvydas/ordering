@@ -39,10 +39,14 @@ It should work if you inject only one "x", one "y" and one "z" in any order. If 
   - "do something" mapped to python code "do_something"
 ## py0d.py
 - 0D kernel written in Python
-- all kernel routines needed for this example
+- all kernel routines needed for this example 
+- the kernel was originally composed of separate files, but, combined into one file for simplicity in this example
+- (the original files are available in https://github.com/guitarvydas/0D, if you want more detail)
 ## 0D/das2json/das2json
 - transpiler for .drawio files to .drawio.json files
 - MacOS only
 - not needed if order.drawio.json already exists
+- simple use of XML parser library to extract semantic details needed to create culled .JSON from .drawio diagrams
+- (in the works: Python/Javascript version of this same app, using OhmJS instead of XML parsing library)
 
 
