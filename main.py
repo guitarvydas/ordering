@@ -14,26 +14,74 @@ def main ():
 
 def start_function (root_project, root_0D, arg, main_container):
     arg = zd.new_datum_string (f'{arg}')
-    srcmsg = zd.make_message("x", arg)
-    print ("injecting x")
-    zd.inject (main_container, srcmsg)
-    srcmsg = zd.make_message("z", arg)
-    print ("injecting z")
-    zd.inject (main_container, srcmsg)
-    srcmsg = zd.make_message("y", arg)
-    print ("injecting y")
-    zd.inject (main_container, srcmsg)
+    msg = zd.make_message("", arg)
+    print ()
+    zd.inject (main_container, msg)
 
 
 ## Leaf components for this project...
 def components_to_include_in_project (root_project, root_0D, reg):
     zd.register_component (reg, zd.Template ( name = "1then2withoverrun", instantiator = deracer_with_overrun))
-    zd.register_component (reg, zd.Template ( name = "do something", instantiator = do_something))
+    zd.register_component (reg, zd.Template ( name = "A", instantiator = A))
+    zd.register_component (reg, zd.Template ( name = "B", instantiator = do_something))
 
 
 
 
-# Deracer_States :: enum { idle, want1, want2, wantReset }
+# A
+def A (reg, owner, name, template_data):      
+    name_with_id = zd.gensym ("A")
+    eh = zd.make_leaf (name=name_with_id, owner=owner, instance_data=None, handler=A_handler)
+    return eh
+
+def A_handler (eh, msg):      
+    zd.send_string (eh, "x", "x", msg)
+    zd.send_string (eh, "z", "z", msg)
+    zd.send_string (eh, "y", "y", msg)
+
+
+# B: Do Something                  
+## states = {nothing, wanty, wantz, wantdone}
+                  
+class DoSomething_Instance_Data:
+    def __init__ (self):
+        self.state="nothing"
+
+def do_something (reg, owner, name, template_data):      
+    name_with_id = zd.gensym ("do something")
+    inst = DoSomething_Instance_Data ()
+    inst.state = "idle"
+    eh = zd.make_leaf (name=name_with_id, owner=owner, instance_data=inst, handler=do_something_handler)
+    return eh
+
+def do_something_handler (eh, msg):      
+    inst = eh.instance_data
+    if inst.state == "idle":
+        if "x" == msg.port:
+            zd.send_string (eh, "", "got x", msg)
+            inst.state = "wanty"
+        else:
+            zd.send_string (eh, "✗", f'bad order in state idle "{msg.port}"', msg)
+    elif inst.state == "wanty":
+        if "y" == msg.port:
+            zd.send_string (eh, "", "got y", msg)
+            inst.state = "wantz"
+        else:
+            zd.send_string (eh, "✗", f'bad order in state wanty "{msg.port}"', msg)
+    elif inst.state == "wantz":
+        if "z" == msg.port:
+            zd.send_string (eh, "", "got z", msg)
+            zd.send_string (eh, "", "finished", msg)
+            zd.send (eh, "done", zd.new_datum_bang (), msg)
+            inst.state = "idle"
+        else:
+            zd.send_string (eh, "✗", f'bad order in state wantz "{msg.port}"', msg)
+    else:
+            zd.send_string (eh, "✗", f'bad state in wantdone "{inst.state}"', msg)
+        
+
+# 1then2withoverrun (Deracer)
+## Deracer_States :: enum { idle, want1, want2, wantReset }
 
 class Deracer_Instance_Data:
     def __init__ (self, state="idle", buffer=None):
@@ -133,52 +181,6 @@ def deracer_handler (eh, msg):
         reclaim_Buffers_from_heap (inst)
         inst.state = "idle"
         
-        
-
-## Do Something                  
-
-# states = {nothing, wanty, wantz, wantdone}
-                  
-class DoSomething_Instance_Data:
-    def __init__ (self):
-        self.state="nothing"
-
-def do_something (reg, owner, name, template_data):      
-    name_with_id = zd.gensym ("do something")
-    inst = DoSomething_Instance_Data ()
-    inst.state = "idle"
-    eh = zd.make_leaf (name=name_with_id, owner=owner, instance_data=inst, handler=do_something_handler)
-    return eh
-
-def do_something_handler (eh, msg):      
-    inst = eh.instance_data
-    if inst.state == "idle":
-        if "x" == msg.port:
-            print ("got x")
-            inst.state = "wanty"
-        else:
-            print (f'bad order in state idle "{msg.port}"')
-            sys.exit (1)
-    elif inst.state == "wanty":
-        if "y" == msg.port:
-            print ("got y")
-            inst.state = "wantz"
-        else:
-            print (f'bad order in state wanty "{msg.port}"')
-            sys.exit (1)
-    elif inst.state == "wantz":
-        if "z" == msg.port:
-            print ("got z")
-            print ("finished")
-            zd.send (eh, "finished", zd.new_datum_bang (), msg)
-            inst.state = "idle"
-            sys.exit (0)
-        else:
-            print (f'bad order in state wantz "{msg.port}"')
-            sys.exit (1)
-    else:
-            print (f'bad state in wantdone "{inst.state}"')
-            sys.exit (1)
         
 
 main ()

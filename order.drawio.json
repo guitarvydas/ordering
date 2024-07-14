@@ -4,6 +4,392 @@
         "name": "main",
         "children": [
             {
+                "name": "A",
+                "id": 9
+            },
+            {
+                "name": "Enforce Order",
+                "id": 10
+            },
+            {
+                "name": "B",
+                "id": 20
+            }
+        ],
+        "connections": [
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "",
+                "target": {
+                    "name": "A",
+                    "id": 9
+                },
+                "target_port": "begin"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "A",
+                    "id": 9
+                },
+                "source_port": "z",
+                "target": {
+                    "name": "Enforce Order",
+                    "id": 10
+                },
+                "target_port": "z"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "Enforce Order",
+                    "id": 10
+                },
+                "source_port": "z",
+                "target": {
+                    "name": "B",
+                    "id": 20
+                },
+                "target_port": "z"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "Enforce Order",
+                    "id": 10
+                },
+                "source_port": "y",
+                "target": {
+                    "name": "B",
+                    "id": 20
+                },
+                "target_port": "y"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "A",
+                    "id": 9
+                },
+                "source_port": "y",
+                "target": {
+                    "name": "Enforce Order",
+                    "id": 10
+                },
+                "target_port": "y"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "B",
+                    "id": 20
+                },
+                "source_port": "done",
+                "target": {
+                    "name": "Enforce Order",
+                    "id": 10
+                },
+                "target_port": "reset"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "Enforce Order",
+                    "id": 10
+                },
+                "source_port": "x",
+                "target": {
+                    "name": "B",
+                    "id": 20
+                },
+                "target_port": "x"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "A",
+                    "id": 9
+                },
+                "source_port": "x",
+                "target": {
+                    "name": "Enforce Order",
+                    "id": 10
+                },
+                "target_port": "x"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "B",
+                    "id": 20
+                },
+                "source_port": "\u2717",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "\u2717"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "Enforce Order",
+                    "id": 10
+                },
+                "source_port": "\u2717",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "\u2717"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "A",
+                    "id": 9
+                },
+                "source_port": "\u2717",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "\u2717"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "B",
+                    "id": 20
+                },
+                "source_port": "",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": ""
+            }
+        ]
+    },
+    {
+        "file": "order.drawio",
+        "name": "Enforce Order",
+        "children": [
+            {
+                "name": "1then2withoverrun",
+                "id": 8
+            },
+            {
+                "name": "1then2withoverrun",
+                "id": 14
+            },
+            {
+                "name": "?C",
+                "id": 15
+            },
+            {
+                "name": "?A",
+                "id": 26
+            },
+            {
+                "name": "?B",
+                "id": 29
+            }
+        ],
+        "connections": [
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "z",
+                "target": {
+                    "name": "?C",
+                    "id": 15
+                },
+                "target_port": ""
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "reset",
+                "target": {
+                    "name": "1then2withoverrun",
+                    "id": 14
+                },
+                "target_port": "reset"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "reset",
+                "target": {
+                    "name": "1then2withoverrun",
+                    "id": 8
+                },
+                "target_port": "reset"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "z",
+                "target": {
+                    "name": "1then2withoverrun",
+                    "id": 8
+                },
+                "target_port": "2"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "y",
+                "target": {
+                    "name": "1then2withoverrun",
+                    "id": 14
+                },
+                "target_port": "2"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "y",
+                "target": {
+                    "name": "?B",
+                    "id": 29
+                },
+                "target_port": ""
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "x",
+                "target": {
+                    "name": "1then2withoverrun",
+                    "id": 14
+                },
+                "target_port": "1"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "x",
+                "target": {
+                    "name": "?A",
+                    "id": 26
+                },
+                "target_port": ""
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "1then2withoverrun",
+                    "id": 14
+                },
+                "source_port": "2",
+                "target": {
+                    "name": "1then2withoverrun",
+                    "id": 8
+                },
+                "target_port": "1"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "1then2withoverrun",
+                    "id": 8
+                },
+                "source_port": "1",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "y"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "1then2withoverrun",
+                    "id": 8
+                },
+                "source_port": "\u2717",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "\u2717"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "1then2withoverrun",
+                    "id": 8
+                },
+                "source_port": "2",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "z"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "1then2withoverrun",
+                    "id": 14
+                },
+                "source_port": "1",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "x"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "1then2withoverrun",
+                    "id": 14
+                },
+                "source_port": "\u2717",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "\u2717"
+            }
+        ]
+    },
+    {
+        "file": "order.drawio",
+        "name": "raw main",
+        "children": [
+            {
                 "name": "1then2withoverrun",
                 "id": 12
             },
