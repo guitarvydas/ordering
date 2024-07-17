@@ -4,15 +4,15 @@
         "name": "main",
         "children": [
             {
-                "name": "1then2withoverrun",
-                "id": 12
+                "name": "A",
+                "id": 9
             },
             {
-                "name": "1then2withoverrun",
-                "id": 16
+                "name": "Enforce Order",
+                "id": 10
             },
             {
-                "name": "do something",
+                "name": "B",
                 "id": 20
             }
         ],
@@ -23,100 +23,35 @@
                     "name": "",
                     "id": 0
                 },
-                "source_port": "y",
+                "source_port": "",
                 "target": {
-                    "name": "1then2withoverrun",
-                    "id": 12
+                    "name": "A",
+                    "id": 9
                 },
-                "target_port": "2"
+                "target_port": "begin"
             },
             {
-                "dir": 0,
+                "dir": 1,
                 "source": {
-                    "name": "",
-                    "id": 0
+                    "name": "A",
+                    "id": 9
                 },
                 "source_port": "z",
                 "target": {
-                    "name": "1then2withoverrun",
-                    "id": 16
+                    "name": "Enforce Order",
+                    "id": 10
                 },
-                "target_port": "2"
-            },
-            {
-                "dir": 0,
-                "source": {
-                    "name": "",
-                    "id": 0
-                },
-                "source_port": "x",
-                "target": {
-                    "name": "1then2withoverrun",
-                    "id": 12
-                },
-                "target_port": "1"
+                "target_port": "z"
             },
             {
                 "dir": 1,
                 "source": {
-                    "name": "do something",
-                    "id": 20
+                    "name": "Enforce Order",
+                    "id": 10
                 },
-                "source_port": "finished",
+                "source_port": "z",
                 "target": {
-                    "name": "1then2withoverrun",
-                    "id": 12
-                },
-                "target_port": "reset"
-            },
-            {
-                "dir": 1,
-                "source": {
-                    "name": "1then2withoverrun",
-                    "id": 12
-                },
-                "source_port": "2",
-                "target": {
-                    "name": "1then2withoverrun",
-                    "id": 16
-                },
-                "target_port": "1"
-            },
-            {
-                "dir": 1,
-                "source": {
-                    "name": "1then2withoverrun",
-                    "id": 12
-                },
-                "source_port": "1",
-                "target": {
-                    "name": "do something",
-                    "id": 20
-                },
-                "target_port": "x"
-            },
-            {
-                "dir": 1,
-                "source": {
-                    "name": "1then2withoverrun",
-                    "id": 16
-                },
-                "source_port": "1",
-                "target": {
-                    "name": "do something",
-                    "id": 20
-                },
-                "target_port": "y"
-            },
-            {
-                "dir": 1,
-                "source": {
-                    "name": "1then2withoverrun",
-                    "id": 16
-                },
-                "source_port": "2",
-                "target": {
-                    "name": "do something",
+                    "name": "B",
                     "id": 20
                 },
                 "target_port": "z"
@@ -124,20 +59,72 @@
             {
                 "dir": 1,
                 "source": {
-                    "name": "do something",
+                    "name": "Enforce Order",
+                    "id": 10
+                },
+                "source_port": "y",
+                "target": {
+                    "name": "B",
                     "id": 20
                 },
-                "source_port": "finished",
+                "target_port": "y"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "A",
+                    "id": 9
+                },
+                "source_port": "y",
                 "target": {
-                    "name": "1then2withoverrun",
-                    "id": 16
+                    "name": "Enforce Order",
+                    "id": 10
+                },
+                "target_port": "y"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "B",
+                    "id": 20
+                },
+                "source_port": "done",
+                "target": {
+                    "name": "Enforce Order",
+                    "id": 10
                 },
                 "target_port": "reset"
             },
             {
+                "dir": 1,
+                "source": {
+                    "name": "Enforce Order",
+                    "id": 10
+                },
+                "source_port": "x",
+                "target": {
+                    "name": "B",
+                    "id": 20
+                },
+                "target_port": "x"
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "A",
+                    "id": 9
+                },
+                "source_port": "x",
+                "target": {
+                    "name": "Enforce Order",
+                    "id": 10
+                },
+                "target_port": "x"
+            },
+            {
                 "dir": 2,
                 "source": {
-                    "name": "do something",
+                    "name": "B",
                     "id": 20
                 },
                 "source_port": "\u2717",
@@ -150,8 +137,8 @@
             {
                 "dir": 2,
                 "source": {
-                    "name": "1then2withoverrun",
-                    "id": 16
+                    "name": "Enforce Order",
+                    "id": 10
                 },
                 "source_port": "\u2717",
                 "target": {
@@ -163,8 +150,8 @@
             {
                 "dir": 2,
                 "source": {
-                    "name": "1then2withoverrun",
-                    "id": 12
+                    "name": "A",
+                    "id": 9
                 },
                 "source_port": "\u2717",
                 "target": {
@@ -176,7 +163,7 @@
             {
                 "dir": 2,
                 "source": {
-                    "name": "do something",
+                    "name": "B",
                     "id": 20
                 },
                 "source_port": "",
@@ -190,19 +177,27 @@
     },
     {
         "file": "order.drawio",
-        "name": "main control flow",
+        "name": "Enforce Order",
         "children": [
             {
                 "name": "1then2withoverrun",
-                "id": 9
+                "id": 8
             },
             {
                 "name": "1then2withoverrun",
-                "id": 13
+                "id": 14
             },
             {
-                "name": "do something",
-                "id": 19
+                "name": "?C",
+                "id": 15
+            },
+            {
+                "name": "?A",
+                "id": 26
+            },
+            {
+                "name": "?B",
+                "id": 29
             }
         ],
         "connections": [
@@ -212,12 +207,77 @@
                     "name": "",
                     "id": 0
                 },
+                "source_port": "z",
+                "target": {
+                    "name": "?C",
+                    "id": 15
+                },
+                "target_port": ""
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "reset",
+                "target": {
+                    "name": "1then2withoverrun",
+                    "id": 14
+                },
+                "target_port": "reset"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "reset",
+                "target": {
+                    "name": "1then2withoverrun",
+                    "id": 8
+                },
+                "target_port": "reset"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "z",
+                "target": {
+                    "name": "1then2withoverrun",
+                    "id": 8
+                },
+                "target_port": "2"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
                 "source_port": "y",
                 "target": {
                     "name": "1then2withoverrun",
-                    "id": 9
+                    "id": 14
                 },
                 "target_port": "2"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "y",
+                "target": {
+                    "name": "?B",
+                    "id": 29
+                },
+                "target_port": ""
             },
             {
                 "dir": 0,
@@ -228,10 +288,117 @@
                 "source_port": "x",
                 "target": {
                     "name": "1then2withoverrun",
-                    "id": 9
+                    "id": 14
                 },
                 "target_port": "1"
             },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "x",
+                "target": {
+                    "name": "?A",
+                    "id": 26
+                },
+                "target_port": ""
+            },
+            {
+                "dir": 1,
+                "source": {
+                    "name": "1then2withoverrun",
+                    "id": 14
+                },
+                "source_port": "2",
+                "target": {
+                    "name": "1then2withoverrun",
+                    "id": 8
+                },
+                "target_port": "1"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "1then2withoverrun",
+                    "id": 8
+                },
+                "source_port": "1",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "y"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "1then2withoverrun",
+                    "id": 8
+                },
+                "source_port": "\u2717",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "\u2717"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "1then2withoverrun",
+                    "id": 8
+                },
+                "source_port": "2",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "z"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "1then2withoverrun",
+                    "id": 14
+                },
+                "source_port": "1",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "x"
+            },
+            {
+                "dir": 2,
+                "source": {
+                    "name": "1then2withoverrun",
+                    "id": 14
+                },
+                "source_port": "\u2717",
+                "target": {
+                    "name": "",
+                    "id": 0
+                },
+                "target_port": "\u2717"
+            }
+        ]
+    },
+    {
+        "file": "order.drawio",
+        "name": "Overview of Enforce Order",
+        "children": [
+            {
+                "name": "1then2withoverrun",
+                "id": 11
+            },
+            {
+                "name": "1then2withoverrun",
+                "id": 13
+            }
+        ],
+        "connections": [
             {
                 "dir": 0,
                 "source": {
@@ -246,10 +413,36 @@
                 "target_port": "2"
             },
             {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "x",
+                "target": {
+                    "name": "1then2withoverrun",
+                    "id": 11
+                },
+                "target_port": "1"
+            },
+            {
+                "dir": 0,
+                "source": {
+                    "name": "",
+                    "id": 0
+                },
+                "source_port": "y",
+                "target": {
+                    "name": "1then2withoverrun",
+                    "id": 11
+                },
+                "target_port": "2"
+            },
+            {
                 "dir": 1,
                 "source": {
                     "name": "1then2withoverrun",
-                    "id": 9
+                    "id": 11
                 },
                 "source_port": "2",
                 "target": {
@@ -259,56 +452,43 @@
                 "target_port": "1"
             },
             {
-                "dir": 1,
+                "dir": 2,
                 "source": {
                     "name": "1then2withoverrun",
-                    "id": 9
+                    "id": 11
                 },
                 "source_port": "1",
                 "target": {
-                    "name": "do something",
-                    "id": 19
+                    "name": "",
+                    "id": 0
                 },
                 "target_port": "x"
             },
             {
-                "dir": 1,
+                "dir": 2,
                 "source": {
                     "name": "1then2withoverrun",
                     "id": 13
                 },
                 "source_port": "1",
                 "target": {
-                    "name": "do something",
-                    "id": 19
+                    "name": "",
+                    "id": 0
                 },
                 "target_port": "y"
             },
             {
-                "dir": 1,
+                "dir": 2,
                 "source": {
                     "name": "1then2withoverrun",
                     "id": 13
                 },
                 "source_port": "2",
                 "target": {
-                    "name": "do something",
-                    "id": 19
-                },
-                "target_port": "z"
-            },
-            {
-                "dir": 2,
-                "source": {
-                    "name": "do something",
-                    "id": 19
-                },
-                "source_port": "",
-                "target": {
                     "name": "",
                     "id": 0
                 },
-                "target_port": ""
+                "target_port": "z"
             }
         ]
     },

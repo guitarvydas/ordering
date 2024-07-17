@@ -5,26 +5,53 @@ make
 
 # expected output
 ```
-injecting x
-injecting z
-injecting y
-got x
-got y
-got z
-finished
+... probe main.Enforce Order.?A₄: x
+... probe main.Enforce Order.?C₃: z
+... probe main.Enforce Order.?B₅: y
+
+--- Outputs ---
+⟪“”⦂“got x”⟫
+⟪“”⦂“got y”⟫
+⟪“”⦂“got z”⟫
+⟪“”⦂“finished”⟫
 ```
 
-Main.py sets things up, then injects 3 messages into the program. 
+Main.py sets things up, then injects one message to kick the program off.
 
-It sends in "x", then "z", then "y". 
+The injected message causes Component "A" to begin.
 
-The program rearranges them in order "x, "y", then "z". 
+Component "A" sends a sequence of 3 messages "x", "z", "y".
 
-It prints the messages, then quits.
+The code to do this is in `main.py`:
 
-You can alter the `inject` calls in `main.py` to insert an extra "x", and, this should result in an overrun error.
+```
+def A_handler (eh, msg):      
+    zd.send_string (eh, "x", "x", msg)
+    zd.send_string (eh, "z", "z", msg)
+    zd.send_string (eh, "y", "y", msg)
+```
 
-It should work if you inject only one "x", one "y" and one "z" in any order. If you inject more than one of any of these, it should fail.
+The Component `Enforce Order` rearranges the messages in the expected order "x", "y", "z" then forwards them to the next Component in the chain (`B`). 
+
+`B` is implemented in the routine `do_something_handler`. It just prints the messages as they come in in the correct orderor aborts if the order is wrong. In practice, `B` would do something more interesting, but this is just a demo of the workflow and I want to KISS.
+
+## Fooling Around With The Code
+
+A simple change would be to insert an extra "x" message and to watch what happens.
+
+You can edit `main.py` to read
+```
+def A_handler (eh, msg):      
+    zd.send_string (eh, "x", "x", msg)
+    zd.send_string (eh, "x", "x", msg)
+    zd.send_string (eh, "z", "z", msg)
+    zd.send_string (eh, "y", "y", msg)
+```
+save and re-run `make`. 
+
+This should result in an "overrun" message on the error port "✗" (that's a Unicode character, not an ASCII "x"). The error is sent by the `Enforce Order` Component and doesn't propagate to `B`. `B` never sees the extra "x" because `Enforce Order` bails out to `idle` when an overrun occurs.
+
+In 0D, you can choose NOT to send a result. In function-based programming, you always have to send some sort of result which usually causes you to overload the meanings of results, using values like `nil` or `None`, and, causing the downstream components to do extra checking. Or, you can add workarounds to the function-based paradigm, like adding `exception` control flows (which violates the principles of structured programming).
 
 # files
 ## order.drawio
@@ -34,9 +61,10 @@ It should work if you inject only one "x", one "y" and one "z" in any order. If 
 - order.drawio transpiled to JSON
 ## main.py
 - mainline for this example
-- contains 2 components written in Python
+- contains 3 components written in Python
   - "1then2withoverrun" mapped to python code "deracer_with_overrun"
-  - "do something" mapped to python code "do_something"
+  - "do something" mapped to python code "do_something", mapped to "B"
+  - "A" - simple component that sends 3 messages ("x", "z", "y")
 ## py0d.py
 - 0D kernel written in Python
 - all kernel routines needed for this example 
